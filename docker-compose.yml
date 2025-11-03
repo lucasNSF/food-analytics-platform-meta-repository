@@ -1,0 +1,45 @@
+networks:
+  analytics_net:
+    driver: bridge
+
+services:
+  backend:
+    container_name: analytics_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./backend/environments/.env.production
+    depends_on:
+      - engine
+    networks:
+      - analytics_net
+
+  frontend:
+    container_name: analytics_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - analytics_net
+
+  engine:
+    container_name: analytics_engine
+    image: cubejs/cube:v1.3.85
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./analytics-engine/.env
+    volumes:
+      - ./analytics-engine:/cube/conf
+      - ./analytics-engine/.empty:/cube/conf/node_modules/@cubejs-backend/
+    networks:
+      - analytics_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

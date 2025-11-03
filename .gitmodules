@@ -1,0 +1,9 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/lucasNSF/food-analytics-platform-backend.git
+[submodule "analytics-engine"]
+	path = analytics-engine
+	url = https://github.com/lucasNSF/food-analytics-platform-cube-engine.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/lucasNSF/food-analytics-platform-frontend.git
